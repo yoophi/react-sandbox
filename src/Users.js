@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer } from "react";
-
+import React from "react";
 import axios from "axios";
 import useAsync from "./useAsync";
 
@@ -12,13 +11,13 @@ async function getUsers() {
 }
 
 function Users() {
-  const [state, refetch] = useAsync(getUsers, []);
+  const [state, refetch] = useAsync(getUsers, [], true);
 
   const { loading, data: users, error } = state;
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>error</div>;
-  if (!users) return null;
+  if (!users) return <button onClick={refetch}>불러오기</button>;
 
   return (
     <>
@@ -29,7 +28,7 @@ function Users() {
           </li>
         ))}
       </ul>
-      <button onClick={refetch}>다시 불러오기</button>
+      <button onClick={refetch}>불러오기</button>
     </>
   );
 }
